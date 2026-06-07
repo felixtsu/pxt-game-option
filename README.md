@@ -7,7 +7,7 @@ MakeCode Arcade 扩展：幸存者肉鸽风格的**升级选择**界面。游戏
 * 打开 [https://arcade.makecode.com/](https://arcade.makecode.com/)
 * 点击 **新项目**
 * 点击齿轮图标菜单下的 **扩展**
-* 搜索并导入本仓库 URL
+* 搜索并导入：`https://github.com/felixtsu/pxt-game-option`
 
 ## 积木块
 
@@ -85,7 +85,7 @@ let name = gameoption.getLabel(options, picked)
 
 * 打开 [https://arcade.makecode.com/](https://arcade.makecode.com/)
 * 点击 **导入** → **导入 URL**
-* 粘贴本仓库地址并导入
+* 粘贴：`https://github.com/felixtsu/pxt-game-option`
 
 #### 元数据（用于搜索、渲染）
 
