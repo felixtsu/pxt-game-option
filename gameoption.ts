@@ -1,5 +1,5 @@
 //% icon="\uf046" color="#E6812D" weight=74 blockGap=12 block="升级选择"
-//% groups='["创建", "弹出"]'
+//% groups='["创建", "设置", "弹出"]'
 namespace 升级选择 { }
 
 //% blockNamespace=升级选择
@@ -13,7 +13,7 @@ class UpgradeOption {
         this._label = label || "";
     }
 
-    //% group="创建" blockSetVariable="upgradeOption"
+    //% group="设置" blockSetVariable="upgradeOption"
     //% blockCombine block="文字" callInDebugger
     get label(): string {
         return this._label;
@@ -21,9 +21,8 @@ class UpgradeOption {
 
     //% block="设置 $this(upgradeOption) 图标为 $icon=screen_image_picker"
     //% blockId=gameoption_setIcon
-    //% group="创建"
+    //% group="设置"
     //% weight=90
-    //% blockGap=8
     setIcon(icon: Image) {
         this._icon = icon;
     }
@@ -31,7 +30,7 @@ class UpgradeOption {
     //% block="设置 $this(upgradeOption) 文字为 $label"
     //% blockId=gameoption_setLabel
     //% label.defl=""
-    //% group="创建"
+    //% group="设置"
     //% weight=89
     //% blockGap=8
     setLabel(label: string) {
@@ -204,6 +203,7 @@ namespace gameoption {
     //% blockNamespace=升级选择
     //% blockSetVariable="upgradeOption"
     //% label.defl=""
+    //% label.shadow=text
     //% group="创建"
     //% weight=100
     //% blockGap=8
@@ -215,8 +215,11 @@ namespace gameoption {
     //% blockId=gameoption_choose2
     //% blockNamespace=升级选择
     //% title.defl="选择升级"
+    //% title.shadow=text
     //% label1.defl=""
+    //% label1.shadow=text
     //% label2.defl=""
+    //% label2.shadow=text
     //% group="弹出"
     //% weight=100
     //% blockGap=8
@@ -231,9 +234,13 @@ namespace gameoption {
     //% blockId=gameoption_choose3
     //% blockNamespace=升级选择
     //% title.defl="选择升级"
+    //% title.shadow=text
     //% label1.defl=""
+    //% label1.shadow=text
     //% label2.defl=""
+    //% label2.shadow=text
     //% label3.defl=""
+    //% label3.shadow=text
     //% group="弹出"
     //% weight=99
     //% blockGap=8

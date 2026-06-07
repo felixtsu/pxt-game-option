@@ -1,10 +1,10 @@
 {
     "name": "game-option-demo",
     "version": "0.0.1",
-    "description": "Demo for pxt-game-option extension",
+    "description": "Demo game for the upgrade picker extension",
     "dependencies": {
         "device": "*",
-        "pxt-game-option": "file:.."
+        "pxt-game-option": "github:felixtsu/pxt-game-option"
     },
     "files": [
         "main.ts",
@@ -13,5 +13,5 @@
     "supportedTargets": [
         "arcade"
     ],
-    "preferredEditor": "blocksprj"
+    "preferredEditor": "tsprj"
 }

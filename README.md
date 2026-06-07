@@ -1,36 +1,41 @@
-# Game Option (pxt-game-option)
+# 升级选择 (pxt-game-option)
 
-MakeCode Arcade 扩展：幸存者肉鸽风格的**升级选择**界面。游戏在指定时机（杀敌数、升级等）弹出多个选项，暂停游戏，玩家用方向键选择、A 键确认，并返回选中索引。
+MakeCode Arcade 扩展：幸存者肉鸽风格的升级选择界面。暂停游戏，用方向键选图标+文字选项，A 确认，返回索引（0 起）。
 
-## 用作扩展
+## 学生用法（在自己的游戏里加扩展）
 
-* 打开 [https://arcade.makecode.com/](https://arcade.makecode.com/)
-* 点击 **新项目**
-* 点击齿轮图标菜单下的 **扩展**
-* 搜索并导入：`https://github.com/felixtsu/pxt-game-option`
+**不要**用「导入 URL」打开本仓库根目录——那是给开发者改插件用的。
+
+正确步骤：
+
+1. 打开 [https://arcade.makecode.com/](https://arcade.makecode.com/)
+2. 点击 **新项目**（或打开你已有的游戏项目）
+3. 点击齿轮 → **扩展**
+4. 搜索并导入：`https://github.com/felixtsu/pxt-game-option`
+5. 左侧工具箱会出现 **升级选择** 分类，拖积木到工作区
+
+## 示例项目
+
+示例在仓库 `demo/` 子目录，与 yahud 相同结构。
+
+* **导入示例**：MakeCode → **导入** → **导入 URL** → 粘贴  
+  `https://github.com/felixtsu/pxt-game-option/tree/main/demo`
+* **源码**：[`demo/main.ts`](demo/main.ts)
 
 ## 积木块
 
-导入扩展后，工具箱会出现 **升级选择** 分类。
-
 ### 创建
 
-* **创建升级选项** — 设置图标和文字（可选，用于先创建变量再选择）
+* **创建升级选项** — 图标 + 文字（可选，用于变量方式）
+
+### 设置
+
 * **设置 [选项] 图标为** / **设置 [选项] 文字为**
 
 ### 弹出
 
-* **弹出 2/3/4 项升级选择** — 直接填入图标和文字，返回选中索引（0 起）
-* **弹出升级选择（选项1/2/3 变量）** — 使用已创建的 `upgradeOption` 变量
-
-## 操作方式
-
-| 按键 | 作用 |
-|------|------|
-| 方向键 | 在选项框之间移动光标 |
-| A | 确认当前选中项 |
-
-界面参考 `game.splash`：游戏暂停（半透明背景仍可见），顶部标题、中间方形选项框（图标）、底部显示当前选中项文字。
+* **弹出 2 项升级选择** — 直接填两组图标+文字，返回 0 或 1
+* **弹出 3 项升级选择** — 三组选项，返回 0 / 1 / 2
 
 ## 示例
 
@@ -45,28 +50,17 @@ if (choice == 0) {
 }
 ```
 
-先用变量创建选项再弹出：
-
-```blocks
-let optA = gameoption.create(myIcon1, "穿透")
-let optB = gameoption.create(myIcon2, "分裂")
-let picked = gameoption.chooseFromOptions2("升级！", optA, optB)
-```
-
 ## 项目结构
 
-* `main.ts` — 空的 namespace 声明
-* `gameoption.ts` — 核心实现与 blocks 注释
-* `test.ts` — 本地测试用，作为插件导入时不编译
+* `main.ts` — 空 namespace（与 yahud 一致）
+* `gameoption.ts` — 插件实现与 blocks 注释
+* `demo/` — 示例游戏（`preferredEditor: tsprj`）
 
-## 编辑此项目
+## 开发者编辑插件
 
-* 打开 [https://arcade.makecode.com/](https://arcade.makecode.com/)
-* 点击 **导入** → **导入 URL**
-* 粘贴：`https://github.com/felixtsu/pxt-game-option`
+* MakeCode → **导入** → **导入 URL** → `https://github.com/felixtsu/pxt-game-option`
 
-#### 元数据（用于搜索、渲染）
+#### 元数据
 
 * for PXT/arcade
 * roguelike upgrade picker
-* survivor game option select
