@@ -233,7 +233,7 @@ namespace gameoption {
         return new UpgradeOption(icon, console.inspect(label));
     }
 
-    //% block="创建升级选项||图标 $icon=screen_image_picker||文字 $label"
+    //% block="创建升级选项 图标 $icon=screen_image_picker 文字 $label"
     //% blockId=gameoption_create
     //% blockNamespace=升级选择
     //% blockSetVariable="upgradeOption"
@@ -246,7 +246,7 @@ namespace gameoption {
         return makeOption(icon, label);
     }
 
-    //% block="弹出升级选择(2个) $title||选项1 $option1=variables_get(upgradeOption)||选项2 $option2=variables_get(upgradeOption)"
+    //% block="弹出升级选择(2个) $title 选项1 $option1=variables_get(upgradeOption) 选项2 $option2=variables_get(upgradeOption)"
     //% blockId=gameoption_choose2
     //% blockNamespace=升级选择
     //% title.defl="选择升级"
@@ -258,7 +258,7 @@ namespace gameoption {
         return runPicker2(title, option1, option2);
     }
 
-    //% block="弹出升级选择(3个) $title||选项1 $option1=variables_get(upgradeOption)||选项2 $option2=variables_get(upgradeOption)||选项3 $option3=variables_get(upgradeOption)"
+    //% block="弹出升级选择(3个) $title 选项1 $option1=variables_get(upgradeOption) 选项2 $option2=variables_get(upgradeOption) 选项3 $option3=variables_get(upgradeOption)"
     //% blockId=gameoption_choose3
     //% blockNamespace=升级选择
     //% title.defl="选择升级"
