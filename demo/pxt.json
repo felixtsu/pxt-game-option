@@ -1,0 +1,17 @@
+{
+    "name": "game-option-demo",
+    "version": "0.0.1",
+    "description": "Demo for pxt-game-option extension",
+    "dependencies": {
+        "device": "*",
+        "pxt-game-option": "file:.."
+    },
+    "files": [
+        "main.ts",
+        "README.md"
+    ],
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "blocksprj"
+}
