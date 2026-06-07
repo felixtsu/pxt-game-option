@@ -1,9 +1,8 @@
 //% icon="\uf046" color="#E6812D" weight=74 blockGap=12 block="升级选择"
-//% groups='["创建", "列表", "弹出"]'
+//% groups='["创建", "弹出"]'
 namespace 升级选择 { }
 
 //% blockNamespace=升级选择
-//% blockSetVariable="upgradeOption"
 //% blockGap=8
 class UpgradeOption {
     protected _icon: Image;
@@ -208,80 +207,79 @@ namespace gameoption {
         return new UpgradeOption(icon, console.inspect(label));
     }
 
-    //% block="空选项列表"
-    //% blockId=gameoption_emptyList
-    //% blockNamespace=升级选择
-    //% blockSetVariable="options"
-    //% group="列表"
-    //% weight=100
-    //% blockGap=8
-    export function emptyList(): UpgradeOption[] {
-        return [];
-    }
-
-    //% block="将 $option 加入 $options"
-    //% blockId=gameoption_addToList
-    //% blockNamespace=升级选择
-    //% group="列表"
-    //% weight=99
-    //% blockGap=8
-    export function addToList(options: UpgradeOption[], option: UpgradeOption) {
-        options.push(option);
-    }
-
-    //% block="从 $options 取第 $index 项的文字"
-    //% blockId=gameoption_getLabel
-    //% blockNamespace=升级选择
-    //% index.min=0 index.defl=0
-    //% group="列表"
-    //% weight=80
-    //% blockGap=8
-    export function getLabel(options: UpgradeOption[], index: number): string {
-        if (!options || index < 0 || index >= options.length) return "";
-        return options[index].label;
-    }
-
-    //% block="弹出升级选择 $title||选项 $options"
-    //% blockId=gameoption_choose
-    //% blockNamespace=升级选择
-    //% title.defl="选择升级"
-    //% group="弹出"
-    //% weight=100
-    //% blockGap=8
-    export function choose(title: any, options: UpgradeOption[]): number {
-        return runPicker(console.inspect(title), options);
-    }
-
-    //% block="弹出 2 项升级选择 $title||选项1 $option1||选项2 $option2"
+    //% block="弹出 2 项升级选择 $title||图标1 $icon1=screen_image_picker 文字1 $label1||图标2 $icon2=screen_image_picker 文字2 $label2"
     //% blockId=gameoption_choose2
     //% blockNamespace=升级选择
     //% title.defl="选择升级"
+    //% label1.defl=""
+    //% label2.defl=""
     //% group="弹出"
-    //% weight=99
+    //% weight=100
     //% blockGap=8
-    export function choose2(title: any, option1: UpgradeOption, option2: UpgradeOption): number {
-        return runPicker(console.inspect(title), [option1, option2]);
+    export function choose2(title: any, icon1: Image, label1: any, icon2: Image, label2: any): number {
+        return runPicker(console.inspect(title), [
+            new UpgradeOption(icon1, console.inspect(label1)),
+            new UpgradeOption(icon2, console.inspect(label2))
+        ]);
     }
 
-    //% block="弹出 3 项升级选择 $title||选项1 $option1||选项2 $option2||选项3 $option3"
+    //% block="弹出 3 项升级选择 $title||图标1 $icon1=screen_image_picker 文字1 $label1||图标2 $icon2=screen_image_picker 文字2 $label2||图标3 $icon3=screen_image_picker 文字3 $label3"
     //% blockId=gameoption_choose3
     //% blockNamespace=升级选择
     //% title.defl="选择升级"
+    //% label1.defl=""
+    //% label2.defl=""
+    //% label3.defl=""
     //% group="弹出"
-    //% weight=98
+    //% weight=99
     //% blockGap=8
-    export function choose3(title: any, option1: UpgradeOption, option2: UpgradeOption, option3: UpgradeOption): number {
-        return runPicker(console.inspect(title), [option1, option2, option3]);
+    export function choose3(title: any, icon1: Image, label1: any, icon2: Image, label2: any, icon3: Image, label3: any): number {
+        return runPicker(console.inspect(title), [
+            new UpgradeOption(icon1, console.inspect(label1)),
+            new UpgradeOption(icon2, console.inspect(label2)),
+            new UpgradeOption(icon3, console.inspect(label3))
+        ]);
     }
 
-    //% block="弹出 4 项升级选择 $title||选项1 $option1||选项2 $option2||选项3 $option3||选项4 $option4"
+    //% block="弹出 4 项升级选择 $title||图标1 $icon1=screen_image_picker 文字1 $label1||图标2 $icon2=screen_image_picker 文字2 $label2||图标3 $icon3=screen_image_picker 文字3 $label3||图标4 $icon4=screen_image_picker 文字4 $label4"
     //% blockId=gameoption_choose4
     //% blockNamespace=升级选择
     //% title.defl="选择升级"
+    //% label1.defl=""
+    //% label2.defl=""
+    //% label3.defl=""
+    //% label4.defl=""
     //% group="弹出"
-    //% weight=97
+    //% weight=98
     //% blockGap=8
-    export function choose4(title: any, option1: UpgradeOption, option2: UpgradeOption, option3: UpgradeOption, option4: UpgradeOption): number {
-        return runPicker(console.inspect(title), [option1, option2, option3, option4]);
+    export function choose4(title: any, icon1: Image, label1: any, icon2: Image, label2: any, icon3: Image, label3: any, icon4: Image, label4: any): number {
+        return runPicker(console.inspect(title), [
+            new UpgradeOption(icon1, console.inspect(label1)),
+            new UpgradeOption(icon2, console.inspect(label2)),
+            new UpgradeOption(icon3, console.inspect(label3)),
+            new UpgradeOption(icon4, console.inspect(label4))
+        ]);
+    }
+
+    //% block="弹出升级选择 $title||选项1 $option1=variables_get(upgradeOption)||选项2 $option2=variables_get(upgradeOption)"
+    //% blockId=gameoption_chooseFromOptions2
+    //% blockNamespace=升级选择
+    //% title.defl="选择升级"
+    //% group="弹出"
+    //% weight=90
+    //% blockGap=8
+    export function chooseFromOptions2(title: any, option1: UpgradeOption, option2: UpgradeOption): number {
+        return runPicker(console.inspect(title), [option1, option2]);
+    }
+
+    //% block="弹出升级选择 $title||选项1 $option1=variables_get(upgradeOption)||选项2 $option2=variables_get(upgradeOption)||选项3 $option3=variables_get(upgradeOption)"
+    //% blockId=gameoption_chooseFromOptions3
+    //% blockNamespace=升级选择
+    //% title.defl="选择升级"
+    //% group="弹出"
+    //% weight=89
+    //% blockGap=8
+    export function chooseFromOptions3(title: any, option1: UpgradeOption, option2: UpgradeOption, option3: UpgradeOption): number {
+        return runPicker(console.inspect(title), [option1, option2, option3]);
     }
 }
