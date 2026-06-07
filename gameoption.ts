@@ -122,9 +122,15 @@ namespace gameoption {
         const count = option3 ? 3 : 2;
         const layout = calcLayout(count);
         const pulse = Math.sin(control.millis() / 200) > 0 ? 0 : 1;
+        const titleText = console.inspect(title);
+        const titleFont = image.getFontForText(titleText);
+        const label = getOptionLabel(selection, option1, option2, option3);
+        const labelFont = image.getFontForText(label);
+        const confirmText = "A = 确认";
+        const confirmFont = image.getFontForText(confirmText);
 
-        screen.fillRect(0, 0, screen.width, 18, 15);
-        screen.printCenter(console.inspect(title), TITLE_TOP, screenColor(7, 1), image.font8);
+        screen.fillRect(0, 0, screen.width, titleFont.charHeight + 6, 15);
+        screen.printCenter(titleText, TITLE_TOP, screenColor(7, 1), titleFont);
 
         drawCardForOption(option1, 0, layout, selection, pulse);
         drawCardForOption(option2, 1, layout, selection, pulse);
@@ -132,13 +138,11 @@ namespace gameoption {
             drawCardForOption(option3, 2, layout, selection, pulse);
         }
 
-        screen.fillRect(SCREEN_PADDING, INFO_TOP - 2, screen.width - (SCREEN_PADDING << 1), image.font5.charHeight + 4, 15);
-        screen.fillRect(SCREEN_PADDING + 1, INFO_TOP - 1, screen.width - (SCREEN_PADDING << 1) - 2, image.font5.charHeight + 2, 1);
+        screen.fillRect(SCREEN_PADDING, INFO_TOP - 2, screen.width - (SCREEN_PADDING << 1), labelFont.charHeight + 4, 15);
+        screen.fillRect(SCREEN_PADDING + 1, INFO_TOP - 1, screen.width - (SCREEN_PADDING << 1) - 2, labelFont.charHeight + 2, 1);
+        screen.printCenter(label, INFO_TOP, 15, labelFont);
 
-        const label = getOptionLabel(selection, option1, option2, option3);
-        screen.printCenter(label, INFO_TOP, 15, image.font5);
-
-        screen.printCenter("A = 确认", screen.height - 8, screenColor(7, 3), image.font5);
+        screen.printCenter(confirmText, screen.height - confirmFont.charHeight - 2, screenColor(7, 3), confirmFont);
     }
 
     function drawCardForOption(option: UpgradeOption, index: number, layout: Layout, selection: number, pulse: number) {
