@@ -110,33 +110,63 @@ namespace gameoption {
         };
     }
 
-    function drawPicker(title: string, options: UpgradeOption[], selection: number) {
-        const layout = calcLayout(options.length);
+    function drawPicker2(title: string, option1: UpgradeOption, option2: UpgradeOption, selection: number) {
+        drawPickerN(title, selection, option1, option2);
+    }
+
+    function drawPicker3(title: string, option1: UpgradeOption, option2: UpgradeOption, option3: UpgradeOption, selection: number) {
+        drawPickerN(title, selection, option1, option2, option3);
+    }
+
+    function drawPickerN(title: string, selection: number, option1: UpgradeOption, option2: UpgradeOption, option3?: UpgradeOption) {
+        const count = option3 ? 3 : 2;
+        const layout = calcLayout(count);
         const pulse = Math.sin(control.millis() / 200) > 0 ? 0 : 1;
 
         screen.fillRect(0, 0, screen.width, 18, 15);
         screen.printCenter(console.inspect(title), TITLE_TOP, screenColor(7, 1), image.font8);
 
-        for (let i = 0; i < options.length; i++) {
-            const pos = cardPosition(i, layout);
-            drawCard(pos.x, pos.y, options[i].getIcon(), i === selection, i === selection ? pulse : 0);
+        drawCardForOption(option1, 0, layout, selection, pulse);
+        drawCardForOption(option2, 1, layout, selection, pulse);
+        if (option3) {
+            drawCardForOption(option3, 2, layout, selection, pulse);
         }
 
         screen.fillRect(SCREEN_PADDING, INFO_TOP - 2, screen.width - (SCREEN_PADDING << 1), image.font5.charHeight + 4, 15);
         screen.fillRect(SCREEN_PADDING + 1, INFO_TOP - 1, screen.width - (SCREEN_PADDING << 1) - 2, image.font5.charHeight + 2, 1);
 
-        const label = options[selection] ? options[selection].label : "";
+        const label = getOptionLabel(selection, option1, option2, option3);
         screen.printCenter(label, INFO_TOP, 15, image.font5);
 
         screen.printCenter("A = 确认", screen.height - 8, screenColor(7, 3), image.font5);
+    }
+
+    function drawCardForOption(option: UpgradeOption, index: number, layout: Layout, selection: number, pulse: number) {
+        const pos = cardPosition(index, layout);
+        drawCard(pos.x, pos.y, option.getIcon(), index === selection, index === selection ? pulse : 0);
+    }
+
+    function getOptionLabel(index: number, option1: UpgradeOption, option2: UpgradeOption, option3?: UpgradeOption): string {
+        if (index === 0) return option1.label;
+        if (index === 1) return option2.label;
+        if (option3 && index === 2) return option3.label;
+        return "";
     }
 
     function moveSelection(selection: number, delta: number, max: number): number {
         return Math.max(0, Math.min(max, selection + delta));
     }
 
-    function runPicker(title: string, options: UpgradeOption[]): number {
-        if (!options || options.length === 0) return -1;
+    function runPicker2(title: string, option1: UpgradeOption, option2: UpgradeOption): number {
+        return runPickerCore(title, 2, option1, option2);
+    }
+
+    function runPicker3(title: string, option1: UpgradeOption, option2: UpgradeOption, option3: UpgradeOption): number {
+        return runPickerCore(title, 3, option1, option2, option3);
+    }
+
+    function runPickerCore(title: string, count: number, option1: UpgradeOption, option2: UpgradeOption, option3?: UpgradeOption): number {
+        if (!option1 || !option2 || (count === 3 && !option3)) return -1;
 
         controller._setUserEventsEnabled(false);
         game.eventContext();
@@ -155,10 +185,15 @@ namespace gameoption {
         let rightReady = false;
         let aReady = false;
 
-        const layout = calcLayout(options.length);
+        const layout = calcLayout(count);
+        const titleText = console.inspect(title);
 
         game.onShade(() => {
-            drawPicker(title, options, selection);
+            if (count === 3 && option3) {
+                drawPicker3(titleText, option1, option2, option3, selection);
+            } else {
+                drawPicker2(titleText, option1, option2, selection);
+            }
         });
 
         pauseUntil(() => {
@@ -169,16 +204,16 @@ namespace gameoption {
             aReady = aReady || !controller.A.isPressed();
 
             if (upReady && controller.up.isPressed()) {
-                selection = moveSelection(selection, -layout.cols, options.length - 1);
+                selection = moveSelection(selection, -layout.cols, count - 1);
                 upReady = false;
             } else if (downReady && controller.down.isPressed()) {
-                selection = moveSelection(selection, layout.cols, options.length - 1);
+                selection = moveSelection(selection, layout.cols, count - 1);
                 downReady = false;
             } else if (leftReady && controller.left.isPressed()) {
-                selection = moveSelection(selection, -1, options.length - 1);
+                selection = moveSelection(selection, -1, count - 1);
                 leftReady = false;
             } else if (rightReady && controller.right.isPressed()) {
-                selection = moveSelection(selection, 1, options.length - 1);
+                selection = moveSelection(selection, 1, count - 1);
                 rightReady = false;
             } else if (aReady && controller.A.isPressed()) {
                 result = selection;
@@ -211,7 +246,7 @@ namespace gameoption {
         return makeOption(icon, label);
     }
 
-    //% block="弹出 2 项升级选择 $title||选项1 $option1=variables_get(upgradeOption)||选项2 $option2=variables_get(upgradeOption)"
+    //% block="弹出升级选择(2个) $title||选项1 $option1=variables_get(upgradeOption)||选项2 $option2=variables_get(upgradeOption)"
     //% blockId=gameoption_choose2
     //% blockNamespace=升级选择
     //% title.defl="选择升级"
@@ -220,10 +255,10 @@ namespace gameoption {
     //% weight=100
     //% blockGap=8
     export function choose2(title: string, option1: UpgradeOption, option2: UpgradeOption): number {
-        return runPicker(console.inspect(title), [option1, option2]);
+        return runPicker2(title, option1, option2);
     }
 
-    //% block="弹出 3 项升级选择 $title||选项1 $option1=variables_get(upgradeOption)||选项2 $option2=variables_get(upgradeOption)||选项3 $option3=variables_get(upgradeOption)"
+    //% block="弹出升级选择(3个) $title||选项1 $option1=variables_get(upgradeOption)||选项2 $option2=variables_get(upgradeOption)||选项3 $option3=variables_get(upgradeOption)"
     //% blockId=gameoption_choose3
     //% blockNamespace=升级选择
     //% title.defl="选择升级"
@@ -232,6 +267,6 @@ namespace gameoption {
     //% weight=99
     //% blockGap=8
     export function choose3(title: string, option1: UpgradeOption, option2: UpgradeOption, option3: UpgradeOption): number {
-        return runPicker(console.inspect(title), [option1, option2, option3]);
+        return runPicker3(title, option1, option2, option3);
     }
 }

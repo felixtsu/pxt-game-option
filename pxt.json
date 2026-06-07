@@ -1,6 +1,6 @@
 {
     "name": "pxt-game-option",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "Roguelike upgrade picker: pause the game and choose from icon+text options with the D-pad",
     "dependencies": {
         "device": "*"
