@@ -1,10 +1,10 @@
-//% icon="\uf046" color="#E6812D" weight=74 blockGap=12 block="升级选择"
+//% icon="\uf009" color="#E6812D" weight=74 blockGap=12 block="选项"
 //% groups='["创建", "设置", "弹出"]'
-namespace 升级选择 { }
+namespace 选项 { }
 
-//% blockNamespace=升级选择
+//% blockNamespace=选项
 //% blockGap=8
-class UpgradeOption {
+class PickerOption {
     protected _icon: Image;
     protected _label: string;
 
@@ -13,13 +13,13 @@ class UpgradeOption {
         this._label = label || "";
     }
 
-    //% group="设置" blockSetVariable="upgradeOption"
+    //% group="设置" blockSetVariable="pickerOption"
     //% blockCombine block="文字" callInDebugger
     get label(): string {
         return this._label;
     }
 
-    //% block="设置 $this(upgradeOption) 图标为 $icon=screen_image_picker"
+    //% block="设置 $this(pickerOption) 图标为 $icon=screen_image_picker"
     //% blockId=gameoption_setIcon
     //% group="设置"
     //% weight=90
@@ -27,7 +27,7 @@ class UpgradeOption {
         this._icon = icon;
     }
 
-    //% block="设置 $this(upgradeOption) 文字为 $label"
+    //% block="设置 $this(pickerOption) 文字为 $label"
     //% blockId=gameoption_setLabel
     //% label.defl=""
     //% group="设置"
@@ -139,15 +139,15 @@ namespace gameoption {
         };
     }
 
-    function drawPicker2(title: string, option1: UpgradeOption, option2: UpgradeOption, selection: number) {
+    function drawPicker2(title: string, option1: PickerOption, option2: PickerOption, selection: number) {
         drawPickerN(title, selection, option1, option2);
     }
 
-    function drawPicker3(title: string, option1: UpgradeOption, option2: UpgradeOption, option3: UpgradeOption, selection: number) {
+    function drawPicker3(title: string, option1: PickerOption, option2: PickerOption, option3: PickerOption, selection: number) {
         drawPickerN(title, selection, option1, option2, option3);
     }
 
-    function drawPickerN(title: string, selection: number, option1: UpgradeOption, option2: UpgradeOption, option3?: UpgradeOption) {
+    function drawPickerN(title: string, selection: number, option1: PickerOption, option2: PickerOption, option3?: PickerOption) {
         const count = option3 ? 3 : 2;
         const layout = calcLayout(count);
         const gridHeight = layout.rows * CARD_SIZE + (layout.rows - 1) * CARD_SPACING;
@@ -176,12 +176,12 @@ namespace gameoption {
         screen.printCenter(confirmText, metrics.confirmTop, screenColor(7, 3), confirmFont);
     }
 
-    function drawCardForOption(option: UpgradeOption, index: number, layout: Layout, cardTop: number, selection: number, pulse: number) {
+    function drawCardForOption(option: PickerOption, index: number, layout: Layout, cardTop: number, selection: number, pulse: number) {
         const pos = cardPosition(index, layout, cardTop);
         drawCard(pos.x, pos.y, option.getIcon(), index === selection, index === selection ? pulse : 0);
     }
 
-    function getOptionLabel(index: number, option1: UpgradeOption, option2: UpgradeOption, option3?: UpgradeOption): string {
+    function getOptionLabel(index: number, option1: PickerOption, option2: PickerOption, option3?: PickerOption): string {
         if (index === 0) return option1.label;
         if (index === 1) return option2.label;
         if (option3 && index === 2) return option3.label;
@@ -192,15 +192,15 @@ namespace gameoption {
         return Math.max(0, Math.min(max, selection + delta));
     }
 
-    function runPicker2(title: string, option1: UpgradeOption, option2: UpgradeOption): number {
+    function runPicker2(title: string, option1: PickerOption, option2: PickerOption): number {
         return runPickerCore(title, 2, option1, option2);
     }
 
-    function runPicker3(title: string, option1: UpgradeOption, option2: UpgradeOption, option3: UpgradeOption): number {
+    function runPicker3(title: string, option1: PickerOption, option2: PickerOption, option3: PickerOption): number {
         return runPickerCore(title, 3, option1, option2, option3);
     }
 
-    function runPickerCore(title: string, count: number, option1: UpgradeOption, option2: UpgradeOption, option3?: UpgradeOption): number {
+    function runPickerCore(title: string, count: number, option1: PickerOption, option2: PickerOption, option3?: PickerOption): number {
         if (!option1 || !option2 || (count === 3 && !option3)) return -1;
 
         controller._setUserEventsEnabled(false);
@@ -264,44 +264,44 @@ namespace gameoption {
         return result;
     }
 
-    function makeOption(icon: Image, label: string): UpgradeOption {
-        return new UpgradeOption(icon, console.inspect(label));
+    function makeOption(icon: Image, label: string): PickerOption {
+        return new PickerOption(icon, console.inspect(label));
     }
 
-    //% block="创建升级选项 图标 $icon=screen_image_picker 文字 $label"
+    //% block="创建选项 图标 $icon=screen_image_picker 文字 $label"
     //% blockId=gameoption_create
-    //% blockNamespace=升级选择
-    //% blockSetVariable="upgradeOption"
+    //% blockNamespace=选项
+    //% blockSetVariable="pickerOption"
     //% label.defl=""
     //% label.shadow=text
     //% group="创建"
     //% weight=100
     //% blockGap=8
-    export function create(icon: Image, label: string): UpgradeOption {
+    export function create(icon: Image, label: string): PickerOption {
         return makeOption(icon, label);
     }
 
-    //% block="弹出升级选择(2个) $title 选项1 $option1=variables_get(upgradeOption) 选项2 $option2=variables_get(upgradeOption)"
+    //% block="弹出选项(2个) $title 选项1 $option1=variables_get(pickerOption) 选项2 $option2=variables_get(pickerOption)"
     //% blockId=gameoption_choose2
-    //% blockNamespace=升级选择
-    //% title.defl="选择升级"
+    //% blockNamespace=选项
+    //% title.defl="请选择"
     //% title.shadow=text
     //% group="弹出"
     //% weight=100
     //% blockGap=8
-    export function choose2(title: string, option1: UpgradeOption, option2: UpgradeOption): number {
+    export function choose2(title: string, option1: PickerOption, option2: PickerOption): number {
         return runPicker2(title, option1, option2);
     }
 
-    //% block="弹出升级选择(3个) $title 选项1 $option1=variables_get(upgradeOption) 选项2 $option2=variables_get(upgradeOption) 选项3 $option3=variables_get(upgradeOption)"
+    //% block="弹出选项(3个) $title 选项1 $option1=variables_get(pickerOption) 选项2 $option2=variables_get(pickerOption) 选项3 $option3=variables_get(pickerOption)"
     //% blockId=gameoption_choose3
-    //% blockNamespace=升级选择
-    //% title.defl="选择升级"
+    //% blockNamespace=选项
+    //% title.defl="请选择"
     //% title.shadow=text
     //% group="弹出"
     //% weight=99
     //% blockGap=8
-    export function choose3(title: string, option1: UpgradeOption, option2: UpgradeOption, option3: UpgradeOption): number {
+    export function choose3(title: string, option1: PickerOption, option2: PickerOption, option3: PickerOption): number {
         return runPicker3(title, option1, option2, option3);
     }
 }

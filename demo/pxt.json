@@ -1,7 +1,7 @@
 {
     "name": "game-option-demo",
     "version": "0.0.1",
-    "description": "Demo game for the upgrade picker extension",
+    "description": "Demo game for the option picker extension",
     "dependencies": {
         "device": "*",
         "pxt-game-option": "github:felixtsu/pxt-game-option"

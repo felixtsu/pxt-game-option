@@ -14,4 +14,4 @@ let optDmg = gameoption.create(img`
     . . 5 . .
 `, "伤害")
 
-let picked = gameoption.choose2("选择升级", optAtk, optDmg)
+let picked = gameoption.choose2("请选择", optAtk, optDmg)
