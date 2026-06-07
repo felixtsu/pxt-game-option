@@ -12,4 +12,4 @@ https://github.com/felixtsu/pxt-game-option/tree/main/demo
 
 ## 源码
 
-本目录 `main.ts` 调用 `gameoption.choose2(...)` 弹出两个升级选项。
+本目录 `main.ts` 先 `create` 两个升级选项，再 `choose2` 传入这两个变量。

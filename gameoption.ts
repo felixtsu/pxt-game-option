@@ -211,44 +211,27 @@ namespace gameoption {
         return makeOption(icon, label);
     }
 
-    //% block="弹出 2 项升级选择 $title||图标1 $icon1=screen_image_picker||文字1 $label1||图标2 $icon2=screen_image_picker||文字2 $label2"
+    //% block="弹出 2 项升级选择 $title||选项1 $option1=variables_get(upgradeOption)||选项2 $option2=variables_get(upgradeOption)"
     //% blockId=gameoption_choose2
     //% blockNamespace=升级选择
     //% title.defl="选择升级"
     //% title.shadow=text
-    //% label1.defl=""
-    //% label1.shadow=text
-    //% label2.defl=""
-    //% label2.shadow=text
     //% group="弹出"
     //% weight=100
     //% blockGap=8
-    export function choose2(title: string, icon1: Image, label1: string, icon2: Image, label2: string): number {
-        return runPicker(console.inspect(title), [
-            makeOption(icon1, label1),
-            makeOption(icon2, label2)
-        ]);
+    export function choose2(title: string, option1: UpgradeOption, option2: UpgradeOption): number {
+        return runPicker(console.inspect(title), [option1, option2]);
     }
 
-    //% block="弹出 3 项升级选择 $title||图标1 $icon1=screen_image_picker||文字1 $label1||图标2 $icon2=screen_image_picker||文字2 $label2||图标3 $icon3=screen_image_picker||文字3 $label3"
+    //% block="弹出 3 项升级选择 $title||选项1 $option1=variables_get(upgradeOption)||选项2 $option2=variables_get(upgradeOption)||选项3 $option3=variables_get(upgradeOption)"
     //% blockId=gameoption_choose3
     //% blockNamespace=升级选择
     //% title.defl="选择升级"
     //% title.shadow=text
-    //% label1.defl=""
-    //% label1.shadow=text
-    //% label2.defl=""
-    //% label2.shadow=text
-    //% label3.defl=""
-    //% label3.shadow=text
     //% group="弹出"
     //% weight=99
     //% blockGap=8
-    export function choose3(title: string, icon1: Image, label1: string, icon2: Image, label2: string, icon3: Image, label3: string): number {
-        return runPicker(console.inspect(title), [
-            makeOption(icon1, label1),
-            makeOption(icon2, label2),
-            makeOption(icon3, label3)
-        ]);
+    export function choose3(title: string, option1: UpgradeOption, option2: UpgradeOption, option3: UpgradeOption): number {
+        return runPicker(console.inspect(title), [option1, option2, option3]);
     }
 }
