@@ -46,12 +46,44 @@ namespace gameoption {
     const CARD_SIZE = 36;
     const CARD_SPACING = 8;
     const SCREEN_PADDING = 8;
-    const TITLE_TOP = 4;
-    const INFO_TOP = 96;
 
     interface Layout {
         cols: number;
         rows: number;
+    }
+
+    interface PickerMetrics {
+        titleTop: number;
+        titleBarHeight: number;
+        cardTop: number;
+        infoTop: number;
+        infoBarHeight: number;
+        confirmTop: number;
+    }
+
+    function edgePadding(): number {
+        return Math.max(4, Math.idiv(screen.height, 24));
+    }
+
+    function computePickerMetrics(titleFont: image.Font, labelFont: image.Font, confirmFont: image.Font, gridHeight: number): PickerMetrics {
+        const edge = edgePadding();
+        const confirmTop = screen.height - confirmFont.charHeight - edge;
+        const infoBarHeight = labelFont.charHeight + 4;
+        const infoGap = Math.max(8, Math.idiv(screen.height, 15));
+        const infoTop = confirmTop - infoGap - infoBarHeight;
+        const titleTop = edge;
+        const titleBarHeight = titleFont.charHeight + 6;
+        const cardAreaTop = titleTop + titleBarHeight + edge;
+        const cardAreaBottom = infoTop - edge;
+        const cardTop = cardAreaTop + Math.max(0, (cardAreaBottom - cardAreaTop - gridHeight) >> 1);
+        return {
+            titleTop: titleTop,
+            titleBarHeight: titleBarHeight,
+            cardTop: cardTop,
+            infoTop: infoTop,
+            infoBarHeight: infoBarHeight,
+            confirmTop: confirmTop
+        };
     }
 
     function calcLayout(count: number): Layout {
@@ -91,17 +123,14 @@ namespace gameoption {
         }
     }
 
-    function cardOrigin(layout: Layout): { left: number; top: number } {
+    function cardOrigin(layout: Layout, cardTop: number): { left: number; top: number } {
         const gridWidth = layout.cols * CARD_SIZE + (layout.cols - 1) * CARD_SPACING;
-        const gridHeight = layout.rows * CARD_SIZE + (layout.rows - 1) * CARD_SPACING;
         const left = (screen.width - gridWidth) >> 1;
-        const availableTop = INFO_TOP - TITLE_TOP - 12;
-        const top = TITLE_TOP + 12 + ((availableTop - gridHeight) >> 1);
-        return { left: left, top: top };
+        return { left: left, top: cardTop };
     }
 
-    function cardPosition(index: number, layout: Layout): { x: number; y: number } {
-        const origin = cardOrigin(layout);
+    function cardPosition(index: number, layout: Layout, cardTop: number): { x: number; y: number } {
+        const origin = cardOrigin(layout, cardTop);
         const col = index % layout.cols;
         const row = Math.idiv(index, layout.cols);
         return {
@@ -121,6 +150,7 @@ namespace gameoption {
     function drawPickerN(title: string, selection: number, option1: UpgradeOption, option2: UpgradeOption, option3?: UpgradeOption) {
         const count = option3 ? 3 : 2;
         const layout = calcLayout(count);
+        const gridHeight = layout.rows * CARD_SIZE + (layout.rows - 1) * CARD_SPACING;
         const pulse = Math.sin(control.millis() / 200) > 0 ? 0 : 1;
         const titleText = console.inspect(title);
         const titleFont = image.getFontForText(titleText);
@@ -128,25 +158,26 @@ namespace gameoption {
         const labelFont = image.getFontForText(label);
         const confirmText = "A = 确认";
         const confirmFont = image.getFontForText(confirmText);
+        const metrics = computePickerMetrics(titleFont, labelFont, confirmFont, gridHeight);
 
-        screen.fillRect(0, 0, screen.width, titleFont.charHeight + 6, 15);
-        screen.printCenter(titleText, TITLE_TOP, screenColor(7, 1), titleFont);
+        screen.fillRect(0, 0, screen.width, metrics.titleBarHeight, 15);
+        screen.printCenter(titleText, metrics.titleTop, screenColor(7, 1), titleFont);
 
-        drawCardForOption(option1, 0, layout, selection, pulse);
-        drawCardForOption(option2, 1, layout, selection, pulse);
+        drawCardForOption(option1, 0, layout, metrics.cardTop, selection, pulse);
+        drawCardForOption(option2, 1, layout, metrics.cardTop, selection, pulse);
         if (option3) {
-            drawCardForOption(option3, 2, layout, selection, pulse);
+            drawCardForOption(option3, 2, layout, metrics.cardTop, selection, pulse);
         }
 
-        screen.fillRect(SCREEN_PADDING, INFO_TOP - 2, screen.width - (SCREEN_PADDING << 1), labelFont.charHeight + 4, 15);
-        screen.fillRect(SCREEN_PADDING + 1, INFO_TOP - 1, screen.width - (SCREEN_PADDING << 1) - 2, labelFont.charHeight + 2, 1);
-        screen.printCenter(label, INFO_TOP, 15, labelFont);
+        screen.fillRect(SCREEN_PADDING, metrics.infoTop - 2, screen.width - (SCREEN_PADDING << 1), metrics.infoBarHeight, 15);
+        screen.fillRect(SCREEN_PADDING + 1, metrics.infoTop - 1, screen.width - (SCREEN_PADDING << 1) - 2, labelFont.charHeight + 2, 1);
+        screen.printCenter(label, metrics.infoTop, 15, labelFont);
 
-        screen.printCenter(confirmText, screen.height - confirmFont.charHeight - 2, screenColor(7, 3), confirmFont);
+        screen.printCenter(confirmText, metrics.confirmTop, screenColor(7, 3), confirmFont);
     }
 
-    function drawCardForOption(option: UpgradeOption, index: number, layout: Layout, selection: number, pulse: number) {
-        const pos = cardPosition(index, layout);
+    function drawCardForOption(option: UpgradeOption, index: number, layout: Layout, cardTop: number, selection: number, pulse: number) {
+        const pos = cardPosition(index, layout, cardTop);
         drawCard(pos.x, pos.y, option.getIcon(), index === selection, index === selection ? pulse : 0);
     }
 
